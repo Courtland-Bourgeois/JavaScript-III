@@ -142,3 +142,78 @@ Humanoid.prototype.greet = function() {
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  function Villain(evil) {
+    Humanoid.call(this, evil);
+  }
+
+  Villain.prototype = Object.create(Humanoid.prototype);
+
+  Villain.prototype.greeting1 = function() {
+    return `Meet ${this.name}, he's part of the ${this.team} club and speaks ${this.language}!`
+  }
+  
+  Villain.prototype.firstStrike = function() {
+    return `Suddenly, ${this.name} started throwing ${this.weapons}.`
+  }
+
+  Villain.prototype.deathByLove = function() {
+    return `Instead of dying, ${this.name} health reached an all time high...${this.healthPoints}!`
+  }
+
+
+  
+  function Hero(goals) {
+    Humanoid.call(this, goals);
+  }
+
+  Hero.prototype = Object.create(Humanoid.prototype);
+
+  Hero.prototype.greeting2 = function() {
+    return `Meet ${this.name}, he's part of the ${this.team} club and speaks ${this.language}!`
+  }
+
+  Hero.prototype.finalBlow = function() {
+    return `But with one fell swoop, ${this.name} killed Bob with ${this.weapons}!`
+  }
+
+  Hero.prototype.theEnd = function() {
+    return `And they both could say on this day, ${this.createdAt}, their friendship begin.`
+  }
+
+
+  const enemy = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Bob',
+    team: 'tanktop',
+    weapons: 'hands',
+    language: 'Dude',
+  });
+
+  const star = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 5,
+    name: 'Jimbo',
+    team: 'collared',
+    weapons: 'kindness',
+    language: 'Love',
+  });
+
+  console.log('******************************************************');
+  console.log(enemy.greeting1());
+  console.log(star.greeting2());
+  console.log(enemy.firstStrike());
+  console.log(star.finalBlow());
+  console.log(enemy.deathByLove());
+  console.log(star.theEnd());

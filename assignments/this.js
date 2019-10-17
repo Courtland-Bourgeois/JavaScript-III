@@ -12,56 +12,56 @@
 // Principle 1
 // code example for Window Binding
 
-// function person(name) {
-//     console.log(this);
-//     return name;
-// }
+function person(name) {
+    console.log(this);
+    return name;
+}
 
-// person("courtland");
-
-
-
-
-// // Principle 2
-// // code example for Implicit Binding
-
-// let me = {
-//     name: 'Courtland',
-//     sport: 'sand volleyball',
-//     hobby: function() {
-//         console.log(`My hobby is ${this.sport} and reading!`);
-//     }
-// }
-
-// me.hobby();
+person("courtland");
 
 
 
 
-// // Principle 3
-// // code example for New Binding
+// Principle 2
+// code example for Implicit Binding
 
-// function Dog(pupName) {
-//     this.name = pupName;
-// }
+let me = {
+    name: 'Courtland',
+    sport: 'sand volleyball',
+    hobby: function() {
+        console.log(`My hobby is ${this.sport} and reading!`);
+    }
+}
 
-// let dog1 = new Dog('Max');
-
-// console.log(dog1.name);
+me.hobby();
 
 
 
 
-// // Principle 4
-// // code example for Explicit Binding
+// Principle 3
+// code example for New Binding
 
-// function lambdaSchool() {
-//     console.log(this.cohort);
-// }
+function Dog(pupName) {
+    this.name = pupName;
+}
 
-// let student1 = {
-//     name: 'Courtland',
-//     cohort: 'Full Stack Web'
-// }
+let dog1 = new Dog('Max');
 
-// lambdaSchool.call(student1);
+console.log(dog1.name);
+
+
+
+
+// Principle 4
+// code example for Explicit Binding
+
+function lambdaSchool() {
+    console.log(this.cohort);
+}
+
+let student1 = {
+    name: 'Courtland',
+    cohort: 'Full Stack Web'
+}
+
+lambdaSchool.call(student1);
