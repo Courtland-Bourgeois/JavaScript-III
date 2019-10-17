@@ -16,12 +16,33 @@
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
 
+function GameObject(objects) {
+  this.createdAt = objects.createdAt,
+  this.name = objects.name,
+  this.dimensions = objects.dimensions
+}
+
+GameObject.prototype.destroy = function() {
+  return `${this.name} was removed from the game.`;
+}
+
 /*
   === CharacterStats ===
   * healthPoints
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+
+function CharacterStats(stats) {
+  this.healthPoints = stats.healthPoints,
+  GameObject.call(this, stats);
+}
+
+CharacterStats.prototype = Object.create(GameObject.prototype);
+
+CharacterStats.prototype.takeDamage = function() {
+  return `${this.name} took damage.`;
+}
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -33,6 +54,19 @@
   * should inherit takeDamage() from CharacterStats
 */
  
+function Humanoid(human) {
+  this.team = human.team,
+  this.weapons = human.weapons,
+  this.language = human.language,
+  CharacterStats.call(this, human);
+}
+
+Humanoid.prototype = Object.create(CharacterStats.prototype);
+
+Humanoid.prototype.greet = function() {
+  return `${this.name} offers a greeting in ${this.language}.`;
+}
+
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
@@ -41,7 +75,7 @@
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -102,9 +136,84 @@
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  function Villain(evil) {
+    Humanoid.call(this, evil);
+  }
+
+  Villain.prototype = Object.create(Humanoid.prototype);
+
+  Villain.prototype.greeting1 = function() {
+    return `Meet ${this.name}, he's part of the ${this.team} club and speaks ${this.language}!`
+  }
+  
+  Villain.prototype.firstStrike = function() {
+    return `Suddenly, ${this.name} started throwing ${this.weapons}.`
+  }
+
+  Villain.prototype.deathByLove = function() {
+    return `Instead of dying, ${this.name} health reached an all time high...${this.healthPoints}!`
+  }
+
+
+  
+  function Hero(goals) {
+    Humanoid.call(this, goals);
+  }
+
+  Hero.prototype = Object.create(Humanoid.prototype);
+
+  Hero.prototype.greeting2 = function() {
+    return `Meet ${this.name}, he's part of the ${this.team} club and speaks ${this.language}!`
+  }
+
+  Hero.prototype.finalBlow = function() {
+    return `But with one fell swoop, ${this.name} killed Bob with ${this.weapons}!`
+  }
+
+  Hero.prototype.theEnd = function() {
+    return `And they both could say on this day, ${this.createdAt}, their friendship begin.`
+  }
+
+
+  const enemy = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Bob',
+    team: 'tanktop',
+    weapons: 'hands',
+    language: 'Dude',
+  });
+
+  const star = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 5,
+    name: 'Jimbo',
+    team: 'collared',
+    weapons: 'kindness',
+    language: 'Love',
+  });
+
+  console.log('******************************************************');
+  console.log(enemy.greeting1());
+  console.log(star.greeting2());
+  console.log(enemy.firstStrike());
+  console.log(star.finalBlow());
+  console.log(enemy.deathByLove());
+  console.log(star.theEnd());
